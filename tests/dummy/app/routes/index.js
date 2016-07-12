@@ -6,12 +6,14 @@ const {
   String: { camelize }
 } = Ember;
 
+
+
 export default Ember.Route.extend({
   firebase: inject.service(),
 
   model() {
     let ref = this.get('firebase');
-
+    debugger;
     return new Promise((resolve, reject) => {
       ref.once('value', function(snapshot) {
         let value = snapshot.val();
@@ -27,6 +29,7 @@ export default Ember.Route.extend({
   },
 
   setupController(controller, { responseTimeMean }) {
+    debugger;
     controller.setProperties({ responseTimeMean });
   }
 

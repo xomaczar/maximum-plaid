@@ -18,7 +18,14 @@ module.exports = function(environment) {
       // when it is created
     },
 
-    firebase: 'https://maximum-plaid.firebaseio.com/',
+    firebase: "https://bxray-18b6b.firebaseio.com"
+    // firebase: {
+    //   apiKey: "AIzaSyAmWUhvrHCKdVy2kKKxwF19SBGrt5Z_dNs",
+    //   authDomain: "bxray-18b6b.firebaseapp.com",
+    //   databaseURL: "https://bxray-18b6b.firebaseio.com",
+    //   storageBucket: "bxray-18b6b.appspot.com"
+    // }
+    // firebase: 'https://maximum-plaid.firebaseio.com/',
   };
 
   if (environment === 'development') {

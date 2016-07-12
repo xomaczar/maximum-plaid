@@ -25,6 +25,8 @@ export default Component.extend(GroupElement, {
 
   ticks: 3,
 
+  tickValues: null,
+
   /**
    * Represents the axis orientation. You should always declare this.
    *
@@ -77,16 +79,25 @@ export default Component.extend(GroupElement, {
   },
 
   drawAxis() {
-    let { y, x, xOffset, yOffset, scale, orientation, tickFormat, ticks, tickSizeInner, tickSizeOuter } =
-      this.getProperties('y', 'x', 'xOffset', 'yOffset', 'scale', 'orientation', 'tickFormat', 'ticks', 'tickSizeInner', 'tickSizeOuter');
+    let {
+      y, x,
+      xOffset, yOffset,
+      scale, orientation,
+      tickFormat, ticks, tickValues, tickSizeInner, tickSizeOuter } = this.getProperties(
+        'y', 'x',
+        'xOffset', 'yOffset',
+        'scale', 'orientation',
+        'tickFormat', 'ticks', 'tickValues', 'tickSizeInner', 'tickSizeOuter');
 
     let axis = this.createAxis(orientation, scale);
 
     axis.tickFormat(tickFormat);
     axis.tickSize(tickSizeInner, tickSizeOuter);
     axis.scale(scale);
+    debugger;
+    axis.tickValues(tickValues);
 
-    if (ticks) {
+    if (!tickValues && ticks) {
       axis.ticks(ticks);
     }
 
