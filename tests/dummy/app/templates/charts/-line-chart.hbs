@@ -1,8 +1,9 @@
+<div style="width: 500px;">
 {{#plot-dimension height=200 as |dim|}}
 {{#with (area dim.width dim.height margin="0 50 72 50") as |plotArea|}}
   {{#plaid-plot
     (time-scale (extent (map-by "transactionDate" responseTimeMean)) (array 0 plotArea.width))
-    (linear-scale (extent (map-by "profit" responseTimeMean) toZero=true) (array plotArea.height 0))
+    (linear-scale (extent (union (map-by "profit" responseTimeMean) (map-by "revenue" responseTimeMean)) toZero=true) (array plotArea.height 0))
     plotArea as |plot|}}
 
 
@@ -19,8 +20,8 @@
         {{plaid-text 'Timestamps' class='axis-title' x=(div plotArea.width 2) y=40}}
       {{/plot.bottom-axis}} --}}
 
-      {{#plot.bottom-axis ticks=(time-interval 'day') tickFormat="%a"}}
-        {{plaid-text 'Timestamps' class='axis-title' x=(div plotArea.width 2) y=40}}
+      {{#plot.bottom-axis ticks=(time-interval 'day') tickFormat=(fmt-time "%a") tickSizeOuter=0}}
+        {{!-- {{plaid-text 'Timestamps' class='axis-title' x=(div plotArea.width 2) y=40}} --}}
       {{/plot.bottom-axis}}
 
       {{!-- {{#plot.bottom-axis tickValues=(scale-ticks plot.xScale (time-interval 'month'))}}
@@ -28,7 +29,7 @@
       {{/plot.bottom-axis}} --}}
 
 
-      {{#plot.right-axis tickFormat=(format-fn "0.1s") ticks=2}}
+      {{#plot.right-axis tickFormat=(format-fn "0.1s") ticks=2 tickSizeOuter=0}}
         {{!-- {{plaid-text 'Amount' class='axis-title' x=50 y=(div plotArea.height 2) textRotate=90}} --}}
       {{/plot.right-axis}}
 
@@ -40,6 +41,7 @@
   {{/plaid-plot}}
 {{/with}}
 {{/plot-dimension}}
+</div>
 
 
 {{!-- {{#plaid-plot

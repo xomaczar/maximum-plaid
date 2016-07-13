@@ -68,7 +68,7 @@ export default Component.extend(GroupElement, {
    * @public
    * @type {Number}
    */
-  tickSizeOuter: 8,
+  tickSizeOuter: 4,
 
   xOffset: 0,
 
@@ -92,9 +92,10 @@ export default Component.extend(GroupElement, {
     let axis = this.createAxis(orientation, scale);
 
     axis.tickFormat(tickFormat);
-    axis.tickSize(tickSizeInner, tickSizeOuter);
+    // axis.tickSize(tickSizeInner, tickSizeOuter);
+    axis.tickSizeInner(tickSizeInner);
+    axis.tickSizeOuter(tickSizeOuter);
     axis.scale(scale);
-    debugger;
     axis.tickValues(tickValues);
 
     if (!tickValues && ticks) {
