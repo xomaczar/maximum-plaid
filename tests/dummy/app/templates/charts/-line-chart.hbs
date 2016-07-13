@@ -16,11 +16,12 @@
         {{plaid-text 'Timestamps' class='axis-title' x=(div plotArea.width 2) y=40}}
       {{/plot.bottom-axis}} --}}
 
-      {{!-- {{#plot.bottom-axis ticks=(compute (get (time-interval 'minute') 'every') 3)}}
-        {{plaid-text 'Timestamps' class='axis-title' x=(div plotArea.width 2) y=40}}
-      {{/plot.bottom-axis}} --}}
-
-      {{#plot.bottom-axis ticks=(time-interval 'day') tickFormat=(fmt-time "%a") tickSizeOuter=0}}
+      {{#plot.bottom-axis
+          class="timeline x"
+          ticks=(time-interval 'day')
+          tickFormat=(fmt-time "%a")
+          tickSizeOuter=0
+          tickSizeInner=(mult -1 plotArea.height)}}
         {{!-- {{plaid-text 'Timestamps' class='axis-title' x=(div plotArea.width 2) y=40}} --}}
       {{/plot.bottom-axis}}
 
@@ -29,13 +30,13 @@
       {{/plot.bottom-axis}} --}}
 
 
-      {{#plot.right-axis tickFormat=(format-fn "0.1s") ticks=2 tickSizeOuter=0}}
+      {{#plot.right-axis class="y" tickFormat=(format-fn "0.1s") ticks=5 tickSizeOuter=0}}
         {{!-- {{plaid-text 'Amount' class='axis-title' x=50 y=(div plotArea.height 2) textRotate=90}} --}}
       {{/plot.right-axis}}
 
     {{/with}}
-    {{#with (pair-by "transactionDate" "revenue" responseTimeMean) as |gridValues|}}
-      {{plot.line gridValues stroke="#FF7F50" strokeWidth="2" curve=(curve "basis")}}
+    {{#with (pair-by "transactionDate" "revenue" responseTimeMean) as |revenueValues|}}
+      {{plot.line revenueValues stroke="#FF7F50" strokeWidth="2" curve=(curve "basis")}}
       {{!-- {{plot.area gridValues fill="#FF7F50" curve=(curve "basis")}} --}}
     {{/with}}
   {{/plaid-plot}}

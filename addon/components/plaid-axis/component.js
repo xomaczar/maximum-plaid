@@ -92,7 +92,6 @@ export default Component.extend(GroupElement, {
     let axis = this.createAxis(orientation, scale);
 
     axis.tickFormat(tickFormat);
-    // axis.tickSize(tickSizeInner, tickSizeOuter);
     axis.tickSizeInner(tickSizeInner);
     axis.tickSizeOuter(tickSizeOuter);
     axis.scale(scale);

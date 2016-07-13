@@ -5,21 +5,50 @@ html, body {
   font-size: 16px;
   margin: 0;
   padding: 0;
+  background: #333B41;
+  color: #fff;
 }
 
-.Plaid-axis {
-  path.domain, .tick line {
-    stroke-width: 1;
-    stroke: black;
-    stroke-opacity: 0.54;
-    fill: none;
-  }
+// .Plaid-axis {
+//   path.domain, .tick line {
+//     stroke-width: 1;
+//     stroke: black;
+//     stroke-opacity: 0.54;
+//     fill: none;
+//   }
+//
+//
+//   .tick text {
+//     font-size: 12px;
+//   }
+//
+//   .axis-title {
+//     font-size: 20px;
+//   }
+// }
 
-  .tick text {
-    font-size: 12px;
-  }
 
-  .axis-title {
-    font-size: 20px;
+.axis.timeline.x, .axis {
+  path {
+    stroke: #fff;
+    stroke-opacity: .05;
+    shape-rendering: crispEdges;
+  }
+  .tick {
+    line {
+      fill: none;
+      stroke: #fff;
+      stroke-opacity: .05;
+      shape-rendering: crispEdges;
+    }
+    text {
+      fill: #89a;
+      font-size: 11px;
+    }
+  }
+}
+.axis.y {
+  .tick:first-of-type {
+    display: none;
   }
 }
