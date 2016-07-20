@@ -9,7 +9,7 @@ const PlotComponent = Ember.Component.extend(Coordinates, {
 
   classNames: ['plaid-plot'],
 
-  attributeBindings: ['plotArea.outerWidth:width', 'plotArea.outerHeight:height'],
+  attributeBindings: ['plotArea.width:width', 'plotArea.height:height'],
 
   /**
    * Represents the xScale, if used.
