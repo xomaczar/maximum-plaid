@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import { A } from 'ember-array/utils';
 
 const {
   inject,
@@ -30,7 +31,7 @@ export default Ember.Route.extend({
 
   setupController(controller, { responseTimeMean }) {
     debugger;
-    controller.setProperties({ responseTimeMean });
+    controller.setProperties({ responseTimeMean: A(responseTimeMean) });
   }
 
 });

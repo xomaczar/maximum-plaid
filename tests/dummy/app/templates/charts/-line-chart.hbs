@@ -1,32 +1,58 @@
 {{#plot-dimension height=200 as |dim|}}
-{{#with (area dim.width dim.height margin="10 30 20 30") as |plotArea|}}
+{{#with (area dim.width dim.height margin="40 50 20 30" padding="10 0 0 0") as |plotArea|}}
   {{#plaid-plot
-    (time-scale (extent (map-by "transactionDate" responseTimeMean)) (array 0 plotArea.innerWidth))
-    (linear-scale (extent (union (map-by "profit" responseTimeMean) (map-by "revenue" responseTimeMean)) toZero=true) (array plotArea.innerHeight  0))
+    (time-scale (extent (map-by "transactionDate" responseTimeMean)) (array 0 plotArea.width))
+    (linear-scale (extent (union (map-by "profit" responseTimeMean) (map-by "revenue" responseTimeMean)) toZero=true) (array plotArea.height  0))
     plotArea as |plot|}}
 
+        {{plot.left-axis
+            class="y"
+            tickFormat=(format-fn "$0.1s")
+            ticks=2
+            tickSizeInner=(mult -1 plotArea.width)
+            tickSizeOuter=0}}
+        {{#plot.bottom-axis
+            class="timeline x"
+            ticks=(time-interval "day")
+            tickFormat=(fmt-time "%a")
+            tickSizeOuter=0
+            tickSizeInner=0}}
+        {{/plot.bottom-axis}}
 
-    {{#with (pair-by "transactionDate" "profit" responseTimeMean) as |values|}}
-      {{plot.line values stroke="#999" strokeWidth="1" curve=(curve "linear")}}
+      {{#with (hash
+        firstSet=(pair-by "transactionDate" "profit" responseTimeMean)
+        secondSet=(pair-by "transactionDate" "revenue" responseTimeMean)) as |values|}}
+        {{plot.line values.firstSet stroke="#999" strokeWidth="1" curve=(curve "linear")}}
+        {{plot.line values.secondSet stroke="#fff" strokeWidth="2" curve=(curve "linear")}}
 
-      {{#with (pair-by "transactionDate" "revenue" responseTimeMean) as |revenueValues|}}
-        {{plot.line revenueValues stroke="#fff" strokeWidth="2" curve=(curve "linear")}}
+        {{#plot.tracker (map-by "transactionDate" responseTimeMean) as |tracker|}}
+          <g opacity="{{if tracker.isActive '1' '0'}}" class="tracker-group" transform="translate({{tracker.xPosition}})">
+            <path class="tracker-line" stroke="#ff9665" d="M0.5,-1V{{plotArea.height}}"/>
+            <path class="tracker-triangle" d="M0.5,0.5L-5,-5L6,-5Z" fill="#E5EDF3"/>
+
+            {{#with (find-by 'transactionDate' tracker.xValue responseTimeMean) as |point|}}
+              <circle r="4" cx="0.5" cy="{{compute plot.yScale point.profit}}" fill="red" stroke="#23292d" stroke-width="0.2"/>
+              <circle r="4" cx="0.5" cy="{{compute plot.yScale point.revenue}}" fill="#ff9665" stroke="#23292d" stroke-width="0.2"/>
+
+              {{#plaid-boxed-text padding="5 20" y=-30 height=25 xCenter=(readonly tracker.xPosition) maxWidth=(readonly plotArea.width) fill="#e5edf3"}}
+                <text x="0" y="-13" text-anchor="middle" font-size="12" fill="green">
+                  revenue ${{point.revenue}} vs. profit ${{point.profit}}
+                </text>
+              {{/plaid-boxed-text}}
+            {{/with}}
+          </g>
+        {{/plot.tracker}}
       {{/with}}
-
-      {{#plot.bottom-axis
-          class="timeline x"
-          ticks=(time-interval 'day')
-          tickFormat=(fmt-time "%a")
-          tickSizeOuter=0
-          tickSizeInner=(mult -1 plotArea.innerHeight)}}
-      {{/plot.bottom-axis}}
-      {{#plot.left-axis class="y" tickFormat=(format-fn "$0.1s") ticks=2 tickSizeOuter=0}}
-      {{/plot.left-axis}}
-    {{/with}}
-
   {{/plaid-plot}}
 {{/with}}
 {{/plot-dimension}}
+
+{{!-- <g opacity="1" transform="translate({{tracker.xPosition}},-1)">
+  <rect rx="3" ry="3" width="170.625" height="24" x="-85.3125" y="-27" fill="#e5edf3"></rect>
+  <text x="0" y="-10" text-anchor="middle" font-size="12" fill="#900">
+    revenue ${{point.revenue}} vs. profit ${{point.profit}}
+  </text>
+</g> --}}
 
 {{!-- {{#plaid-plot
   (time-scale (extent (map-by "timestamp" responseTimeMean)) (array 0 plotArea.width))
